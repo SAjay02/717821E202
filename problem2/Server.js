@@ -75,6 +75,31 @@ app.get('/rand', (req, res) => {
 });
 
 
+function mergeAndSort(num)
+{
+    return Array.from(new Set(num)).sort((a, b) => a - b);
+}
+
+// Endpoint to  main numbers
+app.get('/numbers', async (req, res) => {
+    const urls = req.query.url;
+    if (!urls || !Array.isArray(urls)) {
+        return res.status(400).json({ error: 'Invalid URL' });
+    }
+
+    const requests = urls.map(
+        url => axios.get(url, { timeout: 500 }).
+        then(response => response.data.numbers).
+        catch(() => []));
+
+    try {
+        const responses = await Promise.all(requests);
+        const mergedNumbers = mergeAndSort(responses.flat());
+        res.json({ numbers: mergedNumbers });
+    } catch (error) {
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
 
 
 
