@@ -82,31 +82,43 @@ function mergeAndSort(num)
 
 // Endpoint to  main numbers
 app.get('/numbers/:id', async (req, res) => {
-    const urls = req.params.id;
-    if(urls=='e')
+    try
     {
-        const n = 15; 
-        const evenNumbers = generateEvenNumbers(n);
-        res.json({ numbers: evenNumbers });
+        const urls = req.params.id;
+        if(urls=='e')
+        {
+            const n = 15; 
+            const evenNumbers = generateEvenNumbers(n);
+            res.json({ numbers: evenNumbers });
+        }
+        else if(urls=='f')
+        {
+            const n = 15; 
+            const fibonacci = generateFibonacci(n);
+            res.json({ numbers: fibonacci });
+        }
+        else if(urls=='p')
+        {
+            const n = 15; 
+            const primes = generatePrimes(n);
+            res.json({ numbers: primes });
+        }
+        else if(urls=='r')
+        {
+            const n = 20; 
+            const randNumbers = generateRandNumbers(n);
+            res.json({ numbers: randNumbers });
+        }
+        else
+        {
+            res.json({message:"Invalid name given"})
+        }
     }
-    else if(urls=='f')
+    catch
     {
-        const n = 15; 
-        const fibonacci = generateFibonacci(n);
-        res.json({ numbers: fibonacci });
+        res.json(500).json("Invalid name given")
     }
-    else if(urls=='p')
-    {
-        const n = 15; 
-        const primes = generatePrimes(n);
-        res.json({ numbers: primes });
-    }
-    else if(urls=='r')
-    {
-        const n = 20; 
-        const randNumbers = generateRandNumbers(n);
-        res.json({ numbers: randNumbers });
-    }
+    
 });
 
 
