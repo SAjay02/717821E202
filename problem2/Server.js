@@ -55,7 +55,7 @@ function averageEvenNumbers(n) {
     for (let num = 0; num<n.length; num++) {
         sum+=n[num];
     }
-    return parseFloat((sum/n.length));
+    return parseFloat((sum/n.length)).toFixed(2);
 }
 
 // Endpoint to get a list of odd numbers
@@ -120,13 +120,23 @@ app.get('/numbers/:id', async (req, res) => {
         {
             const n = 15; 
             const primes = generatePrimes(n);
-            res.json({ numbers: primes });
+            res.json({ 
+                windowPrevState:prevState,
+                windowCurrState: primes,
+                numbers: primes,
+                avg:averageEvenNumbers(primes)
+            });
         }
         else if(urls=='r')
         {
             const n = 20; 
             const randNumbers = generateRandNumbers(n);
-            res.json({ numbers: randNumbers });
+            res.json({ 
+                windowPrevState:prevState,
+                windowCurrState: randNumbers,
+                numbers: randNumbers,
+                avg:averageEvenNumbers(randNumbers)
+            });
         }
         else
         {
