@@ -50,6 +50,13 @@ function generateEvenNumbers(n) {
     }
     return evenNumbers;
 }
+function averageEvenNumbers(n) {
+    let sum=0 ;
+    for (let num = 0; num<n.length; num++) {
+        sum+=n[num];
+    }
+    return parseFloat((sum/n.length));
+}
 
 // Endpoint to get a list of odd numbers
 // app.get('/even', (req, res) => {
@@ -82,20 +89,32 @@ function mergeAndSort(num)
 
 // Endpoint to  main numbers
 app.get('/numbers/:id', async (req, res) => {
-    try
-    {
+        const prevState=[];
+        const currState=[];
+        const numbers=[];
+        let evenNumbers=[];
         const urls = req.params.id;
         if(urls=='e')
         {
             const n = 15; 
-            const evenNumbers = generateEvenNumbers(n);
-            res.json({ numbers: evenNumbers });
+            evenNumbers = generateEvenNumbers(n);
+            res.json({ 
+                windowPrevState:prevState,
+                windowCurrState: evenNumbers ,
+                numbers:evenNumbers,
+                avg:averageEvenNumbers(evenNumbers)
+            });
         }
         else if(urls=='f')
         {
             const n = 15; 
             const fibonacci = generateFibonacci(n);
-            res.json({ numbers: fibonacci });
+            res.json({ 
+                windowPrevState:prevState,
+                windowCurrState: fibonacci,
+                numbers:fibonacci,
+                avg:averageEvenNumbers(fibonacci)
+            });
         }
         else if(urls=='p')
         {
@@ -111,13 +130,8 @@ app.get('/numbers/:id', async (req, res) => {
         }
         else
         {
-            res.json({message:"Invalid name given"})
+            res.json({message:"Invalid url given"})
         }
-    }
-    catch
-    {
-        res.json(500).json("Invalid name given")
-    }
     
 });
 
