@@ -3,6 +3,7 @@ const app = express();
 const port = 9876;
 const axios = require("axios")
 
+//generate a prime numbers 
 function generatePrimes(n) {
     const primes = [];
     for (let num = 2; primes.length < n; num++) {
@@ -18,15 +19,7 @@ function generatePrimes(n) {
     return primes;
 }
 
-// Endpoint to  prime numbers
-// app.get('/primes', (req, res) => {
-//     const n = 15; 
-//     const primes = generatePrimes(n);
-//     res.json({ numbers: primes });
-// }); 
-
-
-
+//generate a fibonacci numbers 
 function generateFibonacci(n) {
     const fibonacci = [1, 1];
     for (let i = 2; i < n; i++) {
@@ -35,14 +28,8 @@ function generateFibonacci(n) {
     return fibonacci;
 }
 
-// Endpoint to Fibonacci numbers
-// app.get('/fibo', (req, res) => {
-//     const n = 15; 
-//     const fibonacci = generateFibonacci(n);
-//     res.json({ numbers: fibonacci });
-// });
 
-
+//generate a even numbers 
 function generateEvenNumbers(n) {
     const evenNumbers = [];
     for (let num = 0; evenNumbers.length < n; num += 2) {
@@ -50,6 +37,8 @@ function generateEvenNumbers(n) {
     }
     return evenNumbers;
 }
+
+//generate a average number
 function averageEvenNumbers(n) {
     let sum=0 ;
     for (let num = 0; num<n.length; num++) {
@@ -58,14 +47,7 @@ function averageEvenNumbers(n) {
     return parseFloat((sum/n.length)).toFixed(2);
 }
 
-// Endpoint to get a list of odd numbers
-// app.get('/even', (req, res) => {
-//     const n = 15; // 
-//     const evenNumbers = generateEvenNumbers(n);
-//     res.json({ numbers: evenNumbers });
-// });
-
-
+//generate a random numbers 
 function generateRandNumbers(n) {
     const randNumbers = [];
     for (let num = 0; randNumbers.length < n; num += 2) {
@@ -74,20 +56,8 @@ function generateRandNumbers(n) {
     return randNumbers;
 }
 
-// Endpoint to  rand numbers
-// app.get('/rand', (req, res) => {
-//     const n = 20; 
-//     const randNumbers = generateRandNumbers(n);
-//     res.json({ numbers: randNumbers });
-// });
 
-
-function mergeAndSort(num)
-{
-    return Array.from(new Set(num)).sort((a, b) => a - b);
-}
-
-// Endpoint to  main numbers
+// Endpoint to numbers
 app.get('/numbers/:id', async (req, res) => {
         const prevState=[];
         const currState=[];
@@ -144,7 +114,6 @@ app.get('/numbers/:id', async (req, res) => {
         }
     
 });
-
 
 
 app.listen(port,()=>
