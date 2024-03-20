@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 const port = 9876;
-
+const axios = require("axios")
 
 function generatePrimes(n) {
     const primes = [];
@@ -19,11 +19,11 @@ function generatePrimes(n) {
 }
 
 // Endpoint to  prime numbers
-app.get('/primes', (req, res) => {
-    const n = 15; 
-    const primes = generatePrimes(n);
-    res.json({ numbers: primes });
-}); 
+// app.get('/primes', (req, res) => {
+//     const n = 15; 
+//     const primes = generatePrimes(n);
+//     res.json({ numbers: primes });
+// }); 
 
 
 
@@ -36,14 +36,14 @@ function generateFibonacci(n) {
 }
 
 // Endpoint to Fibonacci numbers
-app.get('/fibo', (req, res) => {
-    const n = 15; 
-    const fibonacci = generateFibonacci(n);
-    res.json({ numbers: fibonacci });
-});
+// app.get('/fibo', (req, res) => {
+//     const n = 15; 
+//     const fibonacci = generateFibonacci(n);
+//     res.json({ numbers: fibonacci });
+// });
 
 
-function generateOddNumbers(n) {
+function generateEvenNumbers(n) {
     const evenNumbers = [];
     for (let num = 0; evenNumbers.length < n; num += 2) {
         evenNumbers.push(num);
@@ -51,12 +51,12 @@ function generateOddNumbers(n) {
     return evenNumbers;
 }
 
-// Endpoint to  even numbers
-app.get('/even', (req, res) => {
-    const n = 20; 
-    const oddNumbers = generateOddNumbers(n);
-    res.json({ numbers: oddNumbers });
-});
+// Endpoint to get a list of odd numbers
+// app.get('/even', (req, res) => {
+//     const n = 15; // 
+//     const evenNumbers = generateEvenNumbers(n);
+//     res.json({ numbers: evenNumbers });
+// });
 
 
 function generateRandNumbers(n) {
@@ -68,11 +68,11 @@ function generateRandNumbers(n) {
 }
 
 // Endpoint to  rand numbers
-app.get('/rand', (req, res) => {
-    const n = 20; 
-    const randNumbers = generateRandNumbers(n);
-    res.json({ numbers: randNumbers });
-});
+// app.get('/rand', (req, res) => {
+//     const n = 20; 
+//     const randNumbers = generateRandNumbers(n);
+//     res.json({ numbers: randNumbers });
+// });
 
 
 function mergeAndSort(num)
@@ -81,26 +81,33 @@ function mergeAndSort(num)
 }
 
 // Endpoint to  main numbers
-app.get('/numbers', async (req, res) => {
-    const urls = req.query.url;
-    if (!urls || !Array.isArray(urls)) {
-        return res.status(400).json({ error: 'Invalid URL' });
+app.get('/numbers/:id', async (req, res) => {
+    const urls = req.params.id;
+    if(urls=='e')
+    {
+        const n = 15; 
+        const evenNumbers = generateEvenNumbers(n);
+        res.json({ numbers: evenNumbers });
     }
-
-    const requests = urls.map(
-        url => axios.get(url, { timeout: 500 }).
-        then(response => response.data.numbers).
-        catch(() => []));
-
-    try {
-        const responses = await Promise.all(requests);
-        const mergedNumbers = mergeAndSort(responses.flat());
-        res.json({ numbers: mergedNumbers });
-    } catch (error) {
-        res.status(500).json({ error: 'Internal Server Error' });
+    else if(urls=='f')
+    {
+        const n = 15; 
+        const fibonacci = generateFibonacci(n);
+        res.json({ numbers: fibonacci });
+    }
+    else if(urls=='p')
+    {
+        const n = 15; 
+        const primes = generatePrimes(n);
+        res.json({ numbers: primes });
+    }
+    else if(urls=='r')
+    {
+        const n = 20; 
+        const randNumbers = generateRandNumbers(n);
+        res.json({ numbers: randNumbers });
     }
 });
-
 
 
 
